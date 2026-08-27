@@ -136,33 +136,33 @@ button{
 <div class="container">
 
 <div class="header">
-    <h1>BAJAJ EMI CALCULATOR</h1>
+<h1>BAJAJ EMI CALCULATOR</h1>
 </div>
 
 <div class="card">
 
 <label>SHOP AMOUNT</label>
-<input type="number" id="amount" value="25000" oninput="calculate()">
+<input type="number" id="amount" value="25000">
 
 <label>CUSTOMER TYPE</label>
-<select id="customer" onchange="calculate()">
-    <option value="CARD CUSTOMER">CARD CUSTOMER</option>
-    <option value="NEW CUSTOMER">NEW CUSTOMER</option>
+<select id="customer">
+<option value="CARD CUSTOMER">CARD CUSTOMER</option>
+<option value="NEW CUSTOMER">NEW CUSTOMER</option>
 </select>
 
 <label>SCHEME</label>
-<select id="scheme" onchange="calculate()">
-    <option value="7/1">7/1</option>
-    <option value="8/0" selected>8/0</option>
-    <option value="10/2">10/2</option>
-    <option value="15/3">15/3</option>
-    <option value="12/4">12/4</option>
-    <option value="18/6">18/6</option>
-    <option value="24/4">24/4</option>
-    <option value="20/2">20/2</option>
-    <option value="18/4">18/4</option>
-    <option value="10/0">10/0</option>
-    <option value="12/1">12/1</option>
+<select id="scheme">
+<option value="7/1">7/1</option>
+<option value="8/0" selected>8/0</option>
+<option value="10/2">10/2</option>
+<option value="15/3">15/3</option>
+<option value="12/4">12/4</option>
+<option value="18/6">18/6</option>
+<option value="24/4">24/4</option>
+<option value="20/2">20/2</option>
+<option value="18/4">18/4</option>
+<option value="10/0">10/0</option>
+<option value="12/1">12/1</option>
 </select>
 
 <div id="warning" class="warning"></div>
@@ -170,44 +170,44 @@ button{
 <div class="result">
 
 <div class="row">
-    <span>Product Amount</span>
-    <span class="value" id="product">₹0</span>
+<span>Product Amount</span>
+<span class="value" id="product">₹0</span>
 </div>
 
 <div class="row">
-    <span>Process Amount</span>
-    <span class="value" id="process">₹0</span>
+<span>Process Amount</span>
+<span class="value" id="process">₹0</span>
 </div>
 
 <div class="row">
-    <span>DBD + GST</span>
-    <span class="value" id="dbd">₹0</span>
+<span>DBD + GST</span>
+<span class="value" id="dbd">₹0</span>
 </div>
 
 <div class="row">
-    <span>DP</span>
-    <span class="value" id="dp">₹0</span>
+<span>DP</span>
+<span class="value" id="dp">₹0</span>
 </div>
 
 <div class="row">
-    <span>Disbursement</span>
-    <span class="value" id="disbursement">₹0</span>
+<span>Disbursement</span>
+<span class="value" id="disbursement">₹0</span>
 </div>
 
 </div>
 
 <div class="final">
-    <div>FINAL EMI</div>
-    <div class="emi" id="finalEmi">₹0</div>
-    <div id="months">× 0 Months</div>
+<div>FINAL EMI</div>
+<div class="emi" id="finalEmi">₹0</div>
+<div id="months">× 0 Months</div>
 </div>
 
 <button class="copy" onclick="copyMessage()">
-    COPY EMI QUOTATION
+COPY EMI QUOTATION
 </button>
 
 <button class="whatsapp" onclick="sendWhatsApp()">
-    SEND ON WHATSAPP
+SEND ON WHATSAPP
 </button>
 
 <div class="message" id="message"></div>
@@ -219,210 +219,258 @@ button{
 
 const schemes = {
 
-"7/1":{
-    dbd:0.035,
-    roi:0.057,
-    adv:1,
-    tenure:7,
-    min:12000
-},
-
-"8/0":{
-    dbd:0.03,
-    roi:0.112,
-    adv:0,
-    tenure:8,
-    min:14500
-},
-
-"10/2":{
-    dbd:0.02,
-    roi:0.0753,
-    adv:2,
-    tenure:10,
-    min:12700
-},
-
-"15/3":{
-    dbd:0.03,
-    roi:0.0713,
-    adv:3,
-    tenure:15,
-    min:17200
-},
-
-"12/4":{
-    dbd:0.02,
-    roi:0.048,
-    adv:4,
-    tenure:12,
-    min:12200
-},
-
-"18/6":{
-    dbd:0.02,
-    roi:0.0525,
-    adv:6,
-    tenure:18,
-    min:19500
-},
-
-"24/4":{
-    dbd:0.02,
-    roi:0.093,
-    adv:4,
-    tenure:24,
-    min:16100
-},
-
-"20/2":{
-    dbd:0.02,
-    roi:0.1105,
-    adv:2,
-    tenure:20,
-    min:12000
-},
-
-"18/4":{
-    dbd:0.02,
-    roi:0.077,
-    adv:4,
-    tenure:18,
-    min:13300
-},
-
-"10/0":{
-    dbd:0.05,
-    roi:0.0918,
-    adv:0,
-    tenure:10,
-    min:12000
-},
-
-"12/1":{
-    dbd:0.03,
-    roi:0.098,
-    adv:1,
-    tenure:12,
-    min:12000
-}
+"7/1":{dbd:0.035,roi:0.057,adv:1,tenure:7,min:12000},
+"8/0":{dbd:0.03,roi:0.112,adv:0,tenure:8,min:14500},
+"10/2":{dbd:0.02,roi:0.0753,adv:2,tenure:10,min:12700},
+"15/3":{dbd:0.03,roi:0.0713,adv:3,tenure:15,min:17200},
+"12/4":{dbd:0.02,roi:0.048,adv:4,tenure:12,min:12200},
+"18/6":{dbd:0.02,roi:0.0525,adv:6,tenure:18,min:19500},
+"24/4":{dbd:0.02,roi:0.093,adv:4,tenure:24,min:16100},
+"20/2":{dbd:0.02,roi:0.1105,adv:2,tenure:20,min:12000},
+"18/4":{dbd:0.02,roi:0.077,adv:4,tenure:18,min:13300},
+"10/0":{dbd:0.05,roi:0.0918,adv:0,tenure:10,min:12000},
+"12/1":{dbd:0.03,roi:0.098,adv:1,tenure:12,min:12000}
 
 };
 
 function money(n){
-    return "₹" + Math.round(n).toLocaleString("en-IN");
+return "₹" + Math.round(n).toLocaleString("en-IN");
 }
 
 function calculate(){
 
-    let amount = Number(document.getElementById("amount").value) || 0;
-    let customer = document.getElementById("customer").value;
-    let schemeName = document.getElementById("scheme").value;
+let amount =
+Number(document.getElementById("amount").value) || 0;
 
-    let s = schemes[schemeName];
+let customer =
+document.getElementById("customer").value;
 
-    if(amount <= 0){
-        return;
-    }
+let schemeName =
+document.getElementById("scheme").value;
 
-    let warning = document.getElementById("warning");
+let s = schemes[schemeName];
 
-    if(amount < s.min){
-        warning.innerText =
-        "Minimum loan amount for " + schemeName +
-        " is " + money(s.min);
-    }else{
-        warning.innerText = "";
-    }
+let warning =
+document.getElementById("warning");
 
-    /*
-       ACCURATE EXCEL FORMULA:
+if(amount <= 0){
 
-       Process Amount =
-       ROUND(
-          Product Amount /
-          (1 - DBD% - (DBD% × 18%))
-       )
-    */
+document.getElementById("product").innerText="₹0";
+document.getElementById("process").innerText="₹0";
+document.getElementById("dbd").innerText="₹0";
+document.getElementById("dp").innerText="₹0";
+document.getElementById("disbursement").innerText="₹0";
+document.getElementById("finalEmi").innerText="₹0";
+document.getElementById("months").innerText="× 0 Months";
+return;
 
-    let process = Math.round(
-        amount /
-        (1 - s.dbd - (s.dbd * 0.18))
-    );
+}
 
-    let dbd = Math.round(process * s.dbd);
+if(amount < s.min){
 
-    let gst = Math.round(dbd * 0.18);
+warning.innerText =
+"Minimum loan amount for " +
+schemeName + " is " + money(s.min);
 
-    let totalDbdGst = dbd + gst;
+}else{
 
-    /*
-       Base EMI =
-       ROUND(
-          Process Amount / Tenure
-          +
-          (Process Amount × ROI / 12)
-       )
-    */
+warning.innerText="";
 
-    let baseEmi = Math.round(
-        process / s.tenure +
-        (process * s.roi / 12)
-    );
+}
 
-    /*
-       DP:
-       If Advance EMI = 0:
-          New Customer = 1417
-          Card Customer = 837
+/* PROCESS AMOUNT */
 
-       Otherwise:
-          ROUND(Advance EMI × Base EMI + Processing Fee)
-    */
+let process = Math.round(
+amount /
+(1 - s.dbd - (s.dbd * 0.18))
+);
 
-    let dp;
+/* DBD + GST */
 
-    if(s.adv === 0){
+let dbd = Math.round(process * s.dbd);
 
-        if(customer === "NEW CUSTOMER"){
-            dp = 1417;
-        }else{
-            dp = 837;
-        }
+let gst = Math.round(dbd * 0.18);
 
-    }else{
+let totalDbdGst = dbd + gst;
 
-        dp = Math.round(
-            s.adv * baseEmi + 567
-        );
+/* BASE EMI */
 
-    }
+let baseEmi = Math.round(
+process / s.tenure +
+(process * s.roi / 12)
+);
 
-    /*
-       Disbursement =
-       Process Amount
-       - DBD
-       - GST
-       - DP
-    */
+/* DP */
 
-    let disbursement = Math.round(
-        process -
-        totalDbdGst -
-        dp
-    );
+let dp;
 
-    /*
-       Insurance slab
-    */
+if(s.adv === 0){
 
-    let insurance;
+if(customer === "NEW CUSTOMER"){
+dp = 1417;
+}else{
+dp = 837;
+}
 
-    if(amount < 17000){
-        insurance = 999;
-    }else if(amount < 30000){
-        insurance = 2051;
-    }else if(amount < 50000){
-        insurance = 3077;
-    }else if(amount < 70000){
-       
+}else{
+
+dp = Math.round(
+s.adv * baseEmi + 567
+);
+
+}
+
+/* DISBURSEMENT */
+
+let disbursement = Math.round(
+process - totalDbdGst - dp
+);
+
+/* INSURANCE */
+
+let insurance;
+
+if(amount < 17000){
+
+insurance = 999;
+
+}else if(amount < 30000){
+
+insurance = 2051;
+
+}else if(amount < 50000){
+
+insurance = 3077;
+
+}else if(amount < 70000){
+
+insurance = 4102;
+
+}else{
+
+insurance = 5128;
+
+}
+
+/* PAY EMI COUNT */
+
+let payEmi = s.tenure - s.adv;
+
+if(payEmi <= 0){
+payEmi = s.tenure;
+}
+
+/* INSURANCE IS ADDED ONLY TO EMI */
+
+let insurancePerEmi =
+Math.round(insurance / payEmi);
+
+let finalEmi =
+baseEmi + insurancePerEmi;
+
+/* DISPLAY */
+
+document.getElementById("product").innerText =
+money(amount);
+
+document.getElementById("process").innerText =
+money(process);
+
+document.getElementById("dbd").innerText =
+money(totalDbdGst);
+
+document.getElementById("dp").innerText =
+money(dp);
+
+document.getElementById("disbursement").innerText =
+money(disbursement);
+
+document.getElementById("finalEmi").innerText =
+money(finalEmi);
+
+document.getElementById("months").innerText =
+"× " + payEmi + " Pay EMIs";
+
+let msg =
+"BAJAJ EMI QUOTATION\n\n" +
+"Shop Amount: " + money(amount) + "\n" +
+"Customer: " + customer + "\n" +
+"Scheme: " + schemeName + "\n\n" +
+"Product Amount: " + money(amount) + "\n" +
+"Process Amount: " + money(process) + "\n" +
+"DBD + GST: " + money(totalDbdGst) + "\n" +
+"DP: " + money(dp) + "\n" +
+"Disbursement: " + money(disbursement) + "\n\n" +
+"FINAL EMI: " + money(finalEmi) + "\n" +
+"Pay EMIs: " + payEmi + "\n" +
+"Insurance: " + money(insurance);
+
+document.getElementById("message").innerText = msg;
+
+}
+
+/* COPY */
+
+function copyMessage(){
+
+let text =
+document.getElementById("message").innerText;
+
+if(!text){
+calculate();
+text =
+document.getElementById("message").innerText;
+}
+
+navigator.clipboard.writeText(text)
+.then(function(){
+
+alert("EMI quotation copied!");
+
+})
+.catch(function(){
+
+alert("Copy failed. Please select and copy the quotation.");
+
+});
+
+}
+
+/* WHATSAPP */
+
+function sendWhatsApp(){
+
+let text =
+document.getElementById("message").innerText;
+
+if(!text){
+calculate();
+text =
+document.getElementById("message").innerText;
+}
+
+let url =
+"https://wa.me/?text=" +
+encodeURIComponent(text);
+
+window.open(url,"_blank");
+
+}
+
+/* AUTO CALCULATE */
+
+document.getElementById("amount")
+.addEventListener("input",calculate);
+
+document.getElementById("customer")
+.addEventListener("change",calculate);
+
+document.getElementById("scheme")
+.addEventListener("change",calculate);
+
+calculate();
+
+</script>
+
+</body>
+</html>
