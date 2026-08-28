@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bajaj EMI Calculator</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
@@ -31,7 +34,7 @@ body{
 
 .header h1{
     margin:0;
-    font-size:23px;
+    font-size:24px;
 }
 
 .card{
@@ -44,17 +47,30 @@ body{
 label{
     display:block;
     font-weight:bold;
-    margin-top:14px;
-    margin-bottom:6px;
+    margin-top:16px;
+    margin-bottom:7px;
 }
 
-input,select{
+input,
+select{
     width:100%;
-    padding:13px;
+    padding:14px;
     border:1px solid #bbb;
-    border-radius:9px;
-    font-size:17px;
+    border-radius:10px;
+    font-size:18px;
     background:white;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border:2px solid #075b91;
+}
+
+.warning{
+    color:#c62828;
+    font-weight:bold;
+    margin-top:10px;
 }
 
 .result{
@@ -67,9 +83,9 @@ input,select{
 .row{
     display:flex;
     justify-content:space-between;
-    padding:9px 0;
+    padding:10px 0;
     border-bottom:1px solid #d7e4ed;
-    gap:10px;
+    font-size:17px;
 }
 
 .row:last-child{
@@ -81,30 +97,34 @@ input,select{
 }
 
 .final{
-    margin-top:12px;
-    padding:15px;
+    margin-top:15px;
+    padding:18px;
     background:#075b91;
     color:white;
-    border-radius:10px;
+    border-radius:12px;
     text-align:center;
 }
 
-.final .emi{
-    font-size:27px;
-    font-weight:bold;
+.final .title{
+    font-size:18px;
 }
 
-.info{
-    margin-top:8px;
-    font-size:13px;
+.final .emi{
+    font-size:32px;
+    font-weight:bold;
+    margin:5px 0;
+}
+
+.final .months{
+    font-size:17px;
 }
 
 button{
     width:100%;
     margin-top:15px;
-    padding:14px;
+    padding:15px;
     border:0;
-    border-radius:9px;
+    border-radius:10px;
     font-size:17px;
     font-weight:bold;
     cursor:pointer;
@@ -123,16 +143,11 @@ button{
 .message{
     margin-top:15px;
     background:#f7f7f7;
-    padding:12px;
+    padding:14px;
     border-radius:10px;
     white-space:pre-line;
     font-size:15px;
-}
-
-.warning{
-    color:#c62828;
-    font-weight:bold;
-    margin-top:10px;
+    line-height:1.5;
 }
 </style>
 </head>
@@ -142,7 +157,7 @@ button{
 <div class="container">
 
 <div class="header">
-<h1>BAJAJ EMI CALCULATOR</h1>
+    <h1>BAJAJ EMI CALCULATOR</h1>
 </div>
 
 <div class="card">
@@ -152,7 +167,8 @@ button{
 <input
     type="number"
     id="amount"
-    placeholder="Enter Shop Amount"
+    value="25000"
+    min="0"
     oninput="calculate()"
 >
 
@@ -160,8 +176,15 @@ button{
 <label>CUSTOMER TYPE</label>
 
 <select id="customer" onchange="calculate()">
-    <option value="CARD CUSTOMER">CARD CUSTOMER</option>
-    <option value="NEW CUSTOMER">NEW CUSTOMER</option>
+
+    <option value="CARD CUSTOMER">
+        CARD CUSTOMER
+    </option>
+
+    <option value="NEW CUSTOMER">
+        NEW CUSTOMER
+    </option>
+
 </select>
 
 
@@ -170,15 +193,25 @@ button{
 <select id="scheme" onchange="calculate()">
 
     <option value="7/1">7/1</option>
+
     <option value="8/0" selected>8/0</option>
+
     <option value="10/2">10/2</option>
+
     <option value="15/3">15/3</option>
+
     <option value="12/4">12/4</option>
+
     <option value="18/6">18/6</option>
+
     <option value="24/4">24/4</option>
+
     <option value="20/2">20/2</option>
+
     <option value="18/4">18/4</option>
+
     <option value="10/0">10/0</option>
+
     <option value="12/1">12/1</option>
 
 </select>
@@ -188,13 +221,19 @@ button{
 
 <select id="insurance" onchange="calculate()">
 
-    <option value="0">NO INSURANCE - ₹0</option>
+    <option value="0">NO INSURANCE</option>
+
     <option value="999">₹999</option>
-    <option value="2051" selected>₹2,051</option>
-    <option value="3077">₹3,077</option>
-    <option value="4872">₹4,872</option>
-    <option value="8207">₹8,207</option>
-    <option value="10261">₹10,261</option>
+
+    <option value="2051" selected>₹2051</option>
+
+    <option value="3077">₹3077</option>
+
+    <option value="4872">₹4872</option>
+
+    <option value="8207">₹8207</option>
+
+    <option value="10261">₹10261</option>
 
 </select>
 
@@ -205,33 +244,33 @@ button{
 <div class="result">
 
 <div class="row">
-<span>Product Amount</span>
-<span class="value" id="product">₹0</span>
+    <span>Product Amount</span>
+    <span class="value" id="product">₹0</span>
 </div>
 
 <div class="row">
-<span>Process Amount</span>
-<span class="value" id="process">₹0</span>
+    <span>Process Amount</span>
+    <span class="value" id="process">₹0</span>
 </div>
 
 <div class="row">
-<span>DBD + GST</span>
-<span class="value" id="dbd">₹0</span>
+    <span>DBD + GST</span>
+    <span class="value" id="dbd">₹0</span>
 </div>
 
 <div class="row">
-<span>DP</span>
-<span class="value" id="dp">₹0</span>
+    <span>DP</span>
+    <span class="value" id="dp">₹0</span>
 </div>
 
 <div class="row">
-<span>Disbursement</span>
-<span class="value" id="disbursement">₹0</span>
+    <span>Disbursement</span>
+    <span class="value" id="disbursement">₹0</span>
 </div>
 
 <div class="row">
-<span>Insurance</span>
-<span class="value" id="insuranceValue">₹0</span>
+    <span>Insurance</span>
+    <span class="value" id="insuranceValue">₹0</span>
 </div>
 
 </div>
@@ -239,40 +278,40 @@ button{
 
 <div class="final">
 
-<div>FINAL EMI</div>
+<div class="title">
+    FINAL EMI
+</div>
 
 <div class="emi" id="finalEmi">
-₹0
+    ₹0
 </div>
 
-<div id="months">
-× 0 Months
+<div class="months" id="months">
+    × 0 Months
 </div>
-
-<div class="info" id="insuranceInfo"></div>
 
 </div>
 
 
 <button
-class="copy"
-onclick="copyMessage()"
+    class="copy"
+    onclick="copyMessage()"
 >
-COPY EMI QUOTATION
+    COPY EMI QUOTATION
 </button>
 
 
 <button
-class="whatsapp"
-onclick="sendWhatsApp()"
+    class="whatsapp"
+    onclick="sendWhatsApp()"
 >
-SEND ON WHATSAPP
+    SEND ON WHATSAPP
 </button>
 
 
 <div
-class="message"
-id="message"
+    class="message"
+    id="message"
 ></div>
 
 </div>
@@ -282,292 +321,456 @@ id="message"
 <script>
 
 /* =========================
-   SCHEMES
+   SCHEME DATA
 ========================= */
 
 const schemes = {
 
-"7/1":{
-    dbd:0.035,
-    roi:0.057,
-    adv:1,
-    tenure:7,
-    min:14500
-},
+    "7/1":{
+        dbd:0.035,
+        roi:0.057,
+        adv:1,
+        tenure:7,
+        payEmi:6,
+        min:14500
+    },
 
-"8/0":{
-    dbd:0.03,
-    roi:0.112,
-    adv:0,
-    tenure:8,
-    min:12700
-},
+    "8/0":{
+        dbd:0.03,
+        roi:0.112,
+        adv:0,
+        tenure:8,
+        payEmi:8,
+        min:12700
+    },
 
-"10/2":{
-    dbd:0.02,
-    roi:0.0753,
-    adv:2,
-    tenure:10,
-    min:17200
-},
+    "10/2":{
+        dbd:0.02,
+        roi:0.0753,
+        adv:2,
+        tenure:10,
+        payEmi:8,
+        min:17200
+    },
 
-"15/3":{
-    dbd:0.03,
-    roi:0.0713,
-    adv:3,
-    tenure:15,
-    min:12200
-},
+    "15/3":{
+        dbd:0.03,
+        roi:0.0713,
+        adv:3,
+        tenure:15,
+        payEmi:12,
+        min:12200
+    },
 
-"12/4":{
-    dbd:0.02,
-    roi:0.048,
-    adv:4,
-    tenure:12,
-    min:19500
-},
+    "12/4":{
+        dbd:0.02,
+        roi:0.048,
+        adv:4,
+        tenure:12,
+        payEmi:8,
+        min:19500
+    },
 
-"18/6":{
-    dbd:0.02,
-    roi:0.0525,
-    adv:6,
-    tenure:18,
-    min:16100
-},
+    "18/6":{
+        dbd:0.02,
+        roi:0.0525,
+        adv:6,
+        tenure:18,
+        payEmi:12,
+        min:16100
+    },
 
-"24/4":{
-    dbd:0.02,
-    roi:0.093,
-    adv:4,
-    tenure:24,
-    min:12000
-},
+    "24/4":{
+        dbd:0.02,
+        roi:0.093,
+        adv:4,
+        tenure:24,
+        payEmi:20,
+        min:12000
+    },
 
-"20/2":{
-    dbd:0.02,
-    roi:0.1105,
-    adv:2,
-    tenure:20,
-    min:12000
-},
+    "20/2":{
+        dbd:0.02,
+        roi:0.1105,
+        adv:2,
+        tenure:20,
+        payEmi:18,
+        min:12000
+    },
 
-"18/4":{
-    dbd:0.02,
-    roi:0.077,
-    adv:4,
-    tenure:18,
-    min:13300
-},
+    "18/4":{
+        dbd:0.02,
+        roi:0.077,
+        adv:4,
+        tenure:18,
+        payEmi:14,
+        min:13300
+    },
 
-"10/0":{
-    dbd:0.05,
-    roi:0.0918,
-    adv:0,
-    tenure:10,
-    min:12000
-},
+    "10/0":{
+        dbd:0.05,
+        roi:0.0918,
+        adv:0,
+        tenure:10,
+        payEmi:10,
+        min:12000
+    },
 
-"12/1":{
-    dbd:0.03,
-    roi:0.098,
-    adv:1,
-    tenure:12,
-    min:12000
-}
+    "12/1":{
+        dbd:0.03,
+        roi:0.098,
+        adv:1,
+        tenure:12,
+        payEmi:11,
+        min:12000
+    }
 
 };
 
 
 /* =========================
-   MONEY
+   MONEY FORMAT
 ========================= */
 
 function money(n){
 
-return "₹" +
-Math.round(n).toLocaleString("en-IN");
+    return "₹" +
+        Math.round(n).toLocaleString("en-IN");
 
 }
 
 
 /* =========================
-   CALCULATE
+   MAIN CALCULATION
 ========================= */
 
 function calculate(){
 
-let amount =
-Number(document.getElementById("amount").value) || 0;
+    const amount =
+        Number(
+            document.getElementById("amount").value
+        ) || 0;
 
-let customer =
-document.getElementById("customer").value;
+    const customer =
+        document.getElementById("customer").value;
 
-let schemeName =
-document.getElementById("scheme").value;
+    const schemeName =
+        document.getElementById("scheme").value;
 
-let insurance =
-Number(document.getElementById("insurance").value) || 0;
-
-let s =
-schemes[schemeName];
-
-let warning =
-document.getElementById("warning");
+    const insurance =
+        Number(
+            document.getElementById("insurance").value
+        ) || 0;
 
 
-/* RESET */
+    const s = schemes[schemeName];
 
-if(amount <= 0){
 
-warning.innerText="";
+    /* RESET IF EMPTY */
 
-document.getElementById("product").innerText="₹0";
-document.getElementById("process").innerText="₹0";
-document.getElementById("dbd").innerText="₹0";
-document.getElementById("dp").innerText="₹0";
-document.getElementById("disbursement").innerText="₹0";
-document.getElementById("insuranceValue").innerText="₹0";
-document.getElementById("finalEmi").innerText="₹0";
-document.getElementById("months").innerText="× 0 Months";
-document.getElementById("insuranceInfo").innerText="";
-document.getElementById("message").innerText="";
+    if(amount <= 0){
 
-return;
+        document.getElementById("product").innerText = "₹0";
+        document.getElementById("process").innerText = "₹0";
+        document.getElementById("dbd").innerText = "₹0";
+        document.getElementById("dp").innerText = "₹0";
+        document.getElementById("disbursement").innerText = "₹0";
+        document.getElementById("insuranceValue").innerText = "₹0";
+        document.getElementById("finalEmi").innerText = "₹0";
+        document.getElementById("months").innerText = "× 0 Months";
+        document.getElementById("message").innerText = "";
+
+        return;
+    }
+
+
+    /* =========================
+       MINIMUM LOAN WARNING
+    ========================= */
+
+    const warning =
+        document.getElementById("warning");
+
+    if(amount < s.min){
+
+        warning.innerText =
+            "Minimum loan amount for " +
+            schemeName +
+            " is " +
+            money(s.min);
+
+    }else{
+
+        warning.innerText = "";
+
+    }
+
+
+    /* =========================
+       PROCESS AMOUNT
+
+       Product Amount /
+       (1 - DBD - GST on DBD)
+    ========================= */
+
+    const process = Math.round(
+
+        amount /
+        (
+            1 -
+            s.dbd -
+            (s.dbd * 0.18)
+        )
+
+    );
+
+
+    /* =========================
+       DBD
+    ========================= */
+
+    const dbd =
+        Math.round(process * s.dbd);
+
+
+    /* =========================
+       GST
+    ========================= */
+
+    const gst =
+        Math.round(dbd * 0.18);
+
+
+    const totalDbdGst =
+        dbd + gst;
+
+
+    /* =========================
+       BASE EMI
+    ========================= */
+
+    const baseEmi =
+        Math.round(
+
+            process / s.tenure
+            +
+            (
+                process *
+                s.roi /
+                12
+            )
+
+        );
+
+
+    /* =========================
+       DOWN PAYMENT
+    ========================= */
+
+    let dp;
+
+
+    if(s.adv === 0){
+
+        if(customer === "NEW CUSTOMER"){
+
+            dp = 1417;
+
+        }else{
+
+            dp = 837;
+
+        }
+
+    }else{
+
+        dp =
+            Math.round(
+                s.adv * baseEmi + 567
+            );
+
+    }
+
+
+    /* =========================
+       DISBURSEMENT
+
+       Insurance NOT included
+       here.
+    ========================= */
+
+    const disbursement =
+        Math.round(
+
+            process -
+            totalDbdGst -
+            dp
+
+        );
+
+
+    /* =========================
+       INSURANCE
+
+       Insurance is added ONLY
+       to EMI.
+
+       12/1 = 11 pay EMIs
+       10/0 = 10 pay EMIs
+       etc.
+    ========================= */
+
+    const insurancePerEmi =
+        Math.round(
+            insurance / s.payEmi
+        );
+
+
+    /* =========================
+       FINAL EMI
+    ========================= */
+
+    const finalEmi =
+        baseEmi +
+        insurancePerEmi;
+
+
+    /* =========================
+       DISPLAY
+    ========================= */
+
+    document.getElementById("product").innerText =
+        money(amount);
+
+    document.getElementById("process").innerText =
+        money(process);
+
+    document.getElementById("dbd").innerText =
+        money(totalDbdGst);
+
+    document.getElementById("dp").innerText =
+        money(dp);
+
+    document.getElementById("disbursement").innerText =
+        money(disbursement);
+
+    document.getElementById("insuranceValue").innerText =
+        money(insurance);
+
+    document.getElementById("finalEmi").innerText =
+        money(finalEmi);
+
+    document.getElementById("months").innerText =
+        "× " + s.payEmi + " Pay EMIs";
+
+
+    /* =========================
+       WHATSAPP / QUOTATION TEXT
+    ========================= */
+
+    const message =
+
+`BAJAJ EMI QUOTATION
+
+Shop Amount: ${money(amount)}
+
+Customer Type: ${customer}
+
+Scheme: ${schemeName}
+
+Product Amount: ${money(amount)}
+
+Process Amount: ${money(process)}
+
+DBD + GST: ${money(totalDbdGst)}
+
+DP: ${money(dp)}
+
+Disbursement: ${money(disbursement)}
+
+Insurance: ${money(insurance)}
+
+FINAL EMI: ${money(finalEmi)}
+
+Pay EMIs: ${s.payEmi} Months`;
+
+
+    document.getElementById("message").innerText =
+        message;
 
 }
 
 
-/* MINIMUM LOAN */
+/* =========================
+   COPY
+========================= */
 
-if(amount < s.min){
+function copyMessage(){
 
-warning.innerText =
-"Minimum loan amount for " +
-schemeName +
-" is " +
-money(s.min);
+    const text =
+        document.getElementById("message").innerText;
 
-}else{
+    if(!text){
 
-warning.innerText="";
+        alert("Please enter Shop Amount");
+
+        return;
+    }
+
+
+    navigator.clipboard.writeText(text)
+    .then(function(){
+
+        alert("EMI quotation copied");
+
+    })
+    .catch(function(){
+
+        alert("Copy failed");
+
+    });
 
 }
 
 
 /* =========================
-   PROCESS AMOUNT
+   WHATSAPP
 ========================= */
 
-let process =
-Math.round(
-amount /
-(
-1 -
-s.dbd -
-(s.dbd * 0.18)
-)
-);
+function sendWhatsApp(){
+
+    const text =
+        document.getElementById("message").innerText;
+
+    if(!text){
+
+        alert("Please enter Shop Amount");
+
+        return;
+    }
 
 
-/* =========================
-   DBD
-========================= */
-
-let dbd =
-Math.round(process * s.dbd);
+    const url =
+        "https://wa.me/?text=" +
+        encodeURIComponent(text);
 
 
-/* =========================
-   GST
-========================= */
-
-let gst =
-Math.round(dbd * 0.18);
-
-let totalDbdGst =
-dbd + gst;
-
-
-/* =========================
-   BASE EMI
-========================= */
-
-let baseEmi =
-Math.round(
-process / s.tenure +
-(
-process *
-s.roi /
-12
-)
-);
-
-
-/* =========================
-   DP
-========================= */
-
-let dp;
-
-if(s.adv === 0){
-
-if(customer === "NEW CUSTOMER"){
-
-dp=1417;
-
-}else{
-
-dp=837;
-
-}
-
-}else{
-
-dp =
-Math.round(
-s.adv *
-baseEmi +
-567
-);
+    window.open(url,"_blank");
 
 }
 
 
 /* =========================
-   DISBURSEMENT
+   RUN ON PAGE LOAD
 ========================= */
 
-let disbursement =
-Math.round(
-process -
-totalDbdGst -
-dp
-);
+window.onload = function(){
 
+    calculate();
 
-/* =========================
-   PAY EMI
-========================= */
+};
 
-let payEmi =
-s.tenure -
-s.adv;
+</script>
 
-
-/* =========================
-   INSURANCE
-========================= */
-
-let insurancePerEmi=0;
-
-if(insurance > 0){
-
-insurancePerEmi =
-insurance /
-payEmi;
-
-}
-
-
-/* =========================
-   FINAL EMI
+</body>
+</html>
