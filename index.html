@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bajaj EMI Calculator</title>
+<title>Easy EMI Just In A Sec</title>
 
 <style>
 *{
@@ -150,6 +150,20 @@ button{
     line-height:1.5;
 }
 </style>
+
+<style>
+.app-nav{display:flex;gap:10px;margin:12px 0}
+.app-nav button{margin:0;background:#075b91;color:#fff}
+.app-nav button.active{background:#168c45}
+.calc-card{display:none;background:#fff;padding:18px;border-radius:14px;box-shadow:0 3px 12px #0002}
+.calc-display{width:100%;padding:16px;border:1px solid #bbb;border-radius:10px;font-size:28px;text-align:right;background:#f7f7f7;margin-bottom:12px}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.calc-grid button{margin:0;padding:16px 8px;font-size:20px;background:#eef3f7;color:#17212b}
+.calc-grid button.op{background:#075b91;color:#fff}
+.calc-grid button.equal{background:#168c45;color:#fff}
+.calc-grid button.wide{grid-column:span 2}
+.footer{text-align:center;margin:18px 0 6px;color:#666;font-size:14px;font-weight:bold}
+</style>
 </head>
 
 <body>
@@ -157,9 +171,41 @@ button{
 <div class="container">
 
 <div class="header">
-    <h1>BAJAJ EMI CALCULATOR</h1>
+    <h1>EASY EMI JUST IN A SEC</h1>
 </div>
 
+
+<div class="app-nav">
+  <button id="emiTab" class="active" onclick="showTab('emi')">EMI Calculator</button>
+  <button id="normalTab" onclick="showTab('normal')">Normal Calculator</button>
+</div>
+
+<div id="normalCalc" class="calc-card">
+  <input id="calcDisplay" class="calc-display" value="0" readonly>
+  <div class="calc-grid">
+    <button class="wide" onclick="calcClear()">AC</button>
+    <button onclick="calcBack()">⌫</button>
+    <button class="op" onclick="calcInput('/')">÷</button>
+    <button onclick="calcInput('7')">7</button>
+    <button onclick="calcInput('8')">8</button>
+    <button onclick="calcInput('9')">9</button>
+    <button class="op" onclick="calcInput('*')">×</button>
+    <button onclick="calcInput('4')">4</button>
+    <button onclick="calcInput('5')">5</button>
+    <button onclick="calcInput('6')">6</button>
+    <button class="op" onclick="calcInput('-')">−</button>
+    <button onclick="calcInput('1')">1</button>
+    <button onclick="calcInput('2')">2</button>
+    <button onclick="calcInput('3')">3</button>
+    <button class="op" onclick="calcInput('+')">+</button>
+    <button onclick="calcInput('0')">0</button>
+    <button onclick="calcInput('.')">.</button>
+    <button onclick="calcInput('%')">%</button>
+    <button class="equal" onclick="calcEquals()">=</button>
+  </div>
+</div>
+
+<div id="emiCalc">
 <div class="card">
 
 <label>SHOP AMOUNT</label>
@@ -317,8 +363,66 @@ button{
 </div>
 </div>
 
+<div class="footer">App Created By Dhananjay Manjarekar</div>
 
 <script>
+
+/* =========================
+   NORMAL CALCULATOR
+========================= */
+let calcExpr = "";
+
+function showTab(tab){
+    const emi = document.getElementById("emiCalc");
+    const normal = document.getElementById("normalCalc");
+    const emiTab = document.getElementById("emiTab");
+    const normalTab = document.getElementById("normalTab");
+
+    if(tab === "normal"){
+        emi.style.display = "none";
+        normal.style.display = "block";
+        emiTab.classList.remove("active");
+        normalTab.classList.add("active");
+    }else{
+        emi.style.display = "block";
+        normal.style.display = "none";
+        normalTab.classList.remove("active");
+        emiTab.classList.add("active");
+    }
+}
+
+function calcInput(value){
+    if(calcExpr === "Error") calcExpr = "";
+    calcExpr += value;
+    document.getElementById("calcDisplay").value = calcExpr || "0";
+}
+
+function calcClear(){
+    calcExpr = "";
+    document.getElementById("calcDisplay").value = "0";
+}
+
+function calcBack(){
+    if(calcExpr === "Error") return calcClear();
+    calcExpr = calcExpr.slice(0,-1);
+    document.getElementById("calcDisplay").value = calcExpr || "0";
+}
+
+function calcEquals(){
+    try{
+        if(!calcExpr) return;
+        let expression = calcExpr.replace(/%/g, "/100");
+        if(!/^[0-9+\-*/().\s]+$/.test(expression)) throw new Error();
+        const result = Function('"use strict"; return (' + expression + ')')();
+        if(!Number.isFinite(result)) throw new Error();
+        calcExpr = String(Math.round((result + Number.EPSILON) * 100000000) / 100000000);
+        document.getElementById("calcDisplay").value = calcExpr;
+    }catch(e){
+        calcExpr = "Error";
+        document.getElementById("calcDisplay").value = "Error";
+    }
+}
+
 
 /* =========================
    SCHEME DATA
